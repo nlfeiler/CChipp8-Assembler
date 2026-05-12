@@ -22,6 +22,7 @@ goto(200)
 ```
 The above program is utilizing the assembler's mnemonic language and all that the program will do is clear the screen then jump back in the program to clear the screen again infinitely. The assembler currently requires you to keep track of your memory locations in your program however if you need to you can write your program as follows without breaking assembly:
 ```
+#This is a comment, while there are no parsing rules for the memory locations below we can still put them and it will not break the program's assembly#
 0x200: clear_screen()  
 0x202: goto(200)  
 ```
