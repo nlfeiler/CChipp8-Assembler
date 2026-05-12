@@ -44,11 +44,14 @@ int main(int argc, char** argv){
     }
     std::cout << "Found file" << std::endl;
 
+    //If an error has occured with how the language mode has been marked then we need to return an error here
+    //Error code -5
     if (langMode != 1 && langMode != 2) {
         std::cout << "Language mode has not been properly marked" << std::endl;
         returnCode = -5;
     }
 
+    //if we have a negative return code then the file is NOT ready for assembly
     if(returnCode < 0) readyForAssembly = 0;
 
     if (readyForAssembly) { //if all of the required things have been taken care of then we can assemble
@@ -61,9 +64,10 @@ int main(int argc, char** argv){
         }
 
         if(langMode == 1) opcodeAssemble(ROMBytes, outputFile, returnCode); //assemble our program into a compiled binary if it is written in just opcodes
-        else if(langMode == 2) langCompile(ROMBytes, outputFile, returnCode);
+        else if(langMode == 2) langCompile(ROMBytes, outputFile, returnCode); //assemble our program into the binary if written with mnemonic language
     }
 
+    //if there was an error then let it be known
     if(returnCode < 0) std::cout << "An error has occurred at some point during assembly. Please take note of your exit code below and consult the project Github for potential fixes or filing a new issue." << std::endl;
 
     std::cout << "Exit code: " << returnCode << std::endl;
