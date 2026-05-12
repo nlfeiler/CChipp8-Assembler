@@ -33,7 +33,7 @@ void langCompile(std::vector<char> &ROMBytes, std::string outputFile, int return
 	std::vector<std::string> tokens;
 	std::string token = "";
 	for (int i = 0; i < ROMBytes.size(); i++) {
-		if(ROMBytes[i] != ' ' && ROMBytes[i] != '\n' && ROMBytes[i] != '\R' && ROMBytes[i] != '(' && ROMBytes[i] != ')' && ROMBytes[i] != ',') //if we do not have a special character then add the char to token
+		if(ROMBytes[i] != ' ' && ROMBytes[i] != '\n' && ROMBytes[i] != '\r' && ROMBytes[i] != '\0' && ROMBytes[i] != ':' && ROMBytes[i] != '(' && ROMBytes[i] != ')' && ROMBytes[i] != ',') //if we do not have a special character then add the char to token
 			token += ROMBytes[i];
 		else { //if we have a special char then we need to add our token to the list then push the special char
 			if(token != "")
