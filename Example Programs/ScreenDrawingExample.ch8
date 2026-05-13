@@ -1,0 +1,16 @@
+0x200: clear_screen() #first clear the screen#
+0x202: vxEq(0,1) #we are going to set register 0 and 1 to the value of 1 so we can draw on screen at (1, 1)#
+0x204: vxEq(1,1)
+0x206: setI(300) #set I to 300 to store the sprite we are drawing there, this program is going to draw my first initial of an N on the screen#
+0x208: vxEq(2, 81) #set register 2 to 0x81#
+0x20A: vxEq(3, C1) #register 3 > 0xC1#
+0x20C: vxEq(4, A1) #register 4 > 0xA1#
+0x20E: vxEq(5, 91) #register 5 > 0x91#
+0x210: vxEq(6, 89) #register 6 > 0x89#
+0x212: vxEq(7, 85) #register 7 > 0x85#
+0x214: vxEq(8, 83) #register 8 > 0x83#
+0x216: vxEq(9, 81) #register 9 > 0x81#
+0x218: regDump(9) #now dump all registers into memory at location I, so ram[300]#
+0x21A: setI(302) #set I to 302 because we have dumped two registers that we are not using because registers 1 and 2 have stored value 1 at indices 300 and 301#
+0x21C: draw(0, 1, 8) #now we draw with x coordinate of the value in register 0 and y coordinate of the value in register 1 with a height of 8 rows#
+0x21E: goto(21E) #now just jump back to the current statement in order to make an infinite loop#
