@@ -8,7 +8,7 @@
         2 - Assembler Mnemonic Language
 */
 
-#include "CChipp8 Assembler.h"
+#include "CChipp8Assembler.h"
 #include "OpcodeAssembler.h"
 #include "LanguageCompiler.h"
 

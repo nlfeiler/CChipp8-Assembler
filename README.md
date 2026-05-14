@@ -15,15 +15,16 @@ The program currently only contains four command line argument flags which are: 
 -o : Denotes the output file to be written.
 ```
 If the program does not detect an input file flag and an output file flag it will not compile and will return an error. If no language type is marked when the program is ran it will default to opcode assembly.  
-### Example Program
+### Example Program(s)
 ```
-clear_screen()  
+clearScreen()  
 goto(200)
 ```
-The above program is utilizing the assembler's mnemonic language and all that the program will do is clear the screen then jump back in the program to clear the screen again infinitely. The assembler currently requires you to keep track of your memory locations in your program however if you need to you can write your program as follows without breaking assembly:
+The above program is utilizing the assembler's mnemonic language and all that the program will do is clear the screen then jump backwards in the program to clear the screen again infinitely. The assembler currently requires you to keep track of your memory locations in your program however if you need to you can write your program as follows without breaking assembly:
 ```
-#This is a comment, while there are no parsing rules for the memory locations below we can still put them and it will not break the program's assembly#
-0x200: clear_screen()  
+0x200: clearScreen()  
 0x202: goto(200)  
 ```
-The starting memory location of your program is variable and can be whatever you want it to be, however, you must keep in mind that most CHIP-8 emulators load ROM into memory at 0x200 so it is recommended to start your program at location 0x200 when keeping track. A full list of the mnemonics and the CHIP-8 opcodes that they correspond to will be added to the repository later. The list of mnemonics can be found in an array at the top of file LanguageCompiler.cpp and can be matched to their opcodes with a small amount of reading through the code of said file.
+The starting memory location of your program is variable and can be whatever you want it to be, however, you must keep in mind that most CHIP-8 emulators load ROM into memory at 0x200 so it is recommended to start your program at location 0x200 when keeping track.  
+  
+A full list of the mnemonics for the assembler mnemonic language functions can be found [here](https://github.com/nlfeiler/CChipp8-Assembler/tree/main/Example%20Programs/Mnemonic%20Language%20Docs.md) along with some sample programs [here](https://github.com/nlfeiler/CChipp8-Assembler/tree/main/Example%20Programs)

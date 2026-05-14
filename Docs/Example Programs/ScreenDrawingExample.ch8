@@ -1,6 +1,6 @@
 #In this example we are going to take the letter N and draw it across the screen several times until it fills up the screen, the letter will be 8 pixels long by 8 pixels tall. The sprites will be drawn using a loop.#
 
-0x200: clear_screen() #first clear the screen#
+0x200: clearScreen() #first clear the screen#
 0x202: vxEq(0,0) #we are going to set register 0 and 1 to the value of 0 so we can draw on screen for the first time at (0, 0)#
 0x204: vxEq(1,0)
 0x206: setI(236) #set I to 236 so we can store the sprite that we are drawing at 0x236 in memory, which is exactly where this program will end in memory#
@@ -21,18 +21,18 @@
 
 #draw function#
 0x21C: draw(0, 1, 8) #draw our sprite on the screen at the coordinates of the values stored in registers 0 and 1 with a height of 8 pixels#
-0x21E: call(230) #jump down to where we check if we need to increment the x or y coordinate as a routine#
+0x21E: goto(230) #jump down to where we check if we need to increment the x or y coordinate#
 0x220: goto(220) #this jumps back to itself to create an infinite loop to end the program#
 
 #increment x#
 0x222: vxInc(0, 8) #increment register 0 (the x coordinate in our drawing) by 8#
-0x224: return() #now return back to our draw statement and draw our new sprite#
+0x224: goto(21C) #now jump back to our draw statement and draw our new sprite#
 
 #set x to 0, increment y by 8#
 0x226: vxEq(0, 0) #set register 0 (our x coordinate) to 0#
 0x228: vxInc(1, 8) #increment register 1 (our y coordinate by 8)#
 0x22A: eqSkip(1, 20) #check if y coordinate is equal to 32#
-0x22C: return() #if y coordinate is not equal to 32 then we can return back to our draw statement#
+0x22C: goto(21C) #if y coordinate is not equal to 32 then we can jump back to our draw statement#
 0x22E: goto(220) #if our y coordinate is equal to 32 we have filled the screen and may end the program so we jump to an infinite loop#
 
 #check coord increments#
