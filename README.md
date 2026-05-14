@@ -27,4 +27,4 @@ The above program is utilizing the assembler's mnemonic language and all that th
 ```
 The starting memory location of your program is variable and can be whatever you want it to be, however, you must keep in mind that most CHIP-8 emulators load ROM into memory at 0x200 so it is recommended to start your program at location 0x200 when keeping track.  
   
-A full list of the mnemonics for the assembler mnemonic language functions can be found [here](https://github.com/nlfeiler/CChipp8-Assembler/tree/main/Example%20Programs/Mnemonic%20Language%20Docs.md) along with some sample programs [here](https://github.com/nlfeiler/CChipp8-Assembler/tree/main/Example%20Programs)
+A full list of the mnemonics for the assembler mnemonic language functions can be found [here](https://github.com/nlfeiler/CChipp8-Assembler/tree/main/Docs/Example%20Programs/Mnemonic%20Language%20Docs.md) along with some sample programs [here](https://github.com/nlfeiler/CChipp8-Assembler/tree/main/Docs/Example%20Programs)
