@@ -70,6 +70,7 @@ int main(int argc, char** argv){
     //if there was an error then let it be known
     if(returnCode < 0) std::cout << "An error has occurred at some point during assembly. Please take note of your exit code below and consult the project Github for potential fixes or filing a new issue." << std::endl;
 
+    //give the user their exit code so they can frantically search it on github if something bad happens
     std::cout << "Exit code: " << returnCode << std::endl;
     return returnCode;
 }
