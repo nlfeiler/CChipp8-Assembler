@@ -1,7 +1,11 @@
+#In this example we are going to take the letter N and draw it across the screen several times until it fills up the screen, the letter will be 8 pixels long by 8 pixels tall. The sprites will be drawn using a loop.#
+
 0x200: clear_screen() #first clear the screen#
-0x202: vxEq(0,1) #we are going to set register 0 and 1 to the value of 1 so we can draw on screen at (1, 1)#
-0x204: vxEq(1,1)
-0x206: setI(300) #set I to 300 to store the sprite we are drawing there, this program is going to draw my first initial of an N on the screen#
+0x202: vxEq(0,0) #we are going to set register 0 and 1 to the value of 0 so we can draw on screen for the first time at (0, 0)#
+0x204: vxEq(1,0)
+0x206: setI(236) #set I to 236 so we can store the sprite that we are drawing at 0x236 in memory, which is exactly where this program will end in memory#
+
+#below will store a bitmap font of the a capital letter N#
 0x208: vxEq(2, 81) #set register 2 to 0x81#
 0x20A: vxEq(3, C1) #register 3 > 0xC1#
 0x20C: vxEq(4, A1) #register 4 > 0xA1#
@@ -10,7 +14,28 @@
 0x212: vxEq(7, 85) #register 7 > 0x85#
 0x214: vxEq(8, 83) #register 8 > 0x83#
 0x216: vxEq(9, 81) #register 9 > 0x81#
-0x218: regDump(9) #now dump all registers into memory at location I, so ram[300]#
-0x21A: setI(302) #set I to 302 because we have dumped two registers that we are not using because registers 1 and 2 have stored value 1 at indices 300 and 301#
-0x21C: draw(0, 1, 8) #now we draw with x coordinate of the value in register 0 and y coordinate of the value in register 1 with a height of 8 rows#
-0x21E: goto(21E) #now just jump back to the current statement in order to make an infinite loop#
+
+0x218: regDump(9) #now dump all registers into memory at location I so that way we can have the sprite data stored in memory#
+0x21A: setI(238) #set I to 238 because we have dumped two registers that we are not using because registers 1 and 2 have stored value 1 at indices 237 and 238#
+#control will now fill into the next statement below#
+
+#draw function#
+0x21C: draw(0, 1, 8) #draw our sprite on the screen at the coordinates of the values stored in registers 0 and 1 with a height of 8 pixels#
+0x21E: call(230) #jump down to where we check if we need to increment the x or y coordinate as a routine#
+0x220: goto(220) #this jumps back to itself to create an infinite loop to end the program#
+
+#increment x#
+0x222: vxInc(0, 8) #increment register 0 (the x coordinate in our drawing) by 8#
+0x224: return() #now return back to our draw statement and draw our new sprite#
+
+#set x to 0, increment y by 8#
+0x226: vxEq(0, 0) #set register 0 (our x coordinate) to 0#
+0x228: vxInc(1, 8) #increment register 1 (our y coordinate by 8)#
+0x22A: eqSkip(1, 20) #check if y coordinate is equal to 32#
+0x22C: return() #if y coordinate is not equal to 32 then we can return back to our draw statement#
+0x22E: goto(220) #if our y coordinate is equal to 32 we have filled the screen and may end the program so we jump to an infinite loop#
+
+#check coord increments#
+0x230: eqSkip(0, 38) #check if our x coordinate is equal to 56#
+0x232: goto(222) #if the x coordinate is not 56 then we jump to the x increment section#
+0x234: goto(226) #if the x coordinate is 56 then we will jump to where we set the x coordinate back to 0 and then increment the y coordinate by 8#
