@@ -25,6 +25,7 @@ int main(int argc, char** argv){
         if (arg == "-f") fileToAssemble = argv[i+1];
         else if(arg == "-op") langMode = 1; //the file is programmed straight in the opcodes of the chip8
         else if(arg == "-tl") langMode = 2; //the file is programmed in the custom assembler mnemonic code
+        else if(arg == "-asm") langMode = 3;
         else if(arg == "-o") outputFile = argv[i+1];
     }
 
@@ -46,7 +47,7 @@ int main(int argc, char** argv){
 
     //If an error has occured with how the language mode has been marked then we need to return an error here
     //Error code -5
-    if (langMode != 1 && langMode != 2) {
+    if (langMode != 1 && langMode != 2 && langMode != 3) {
         std::cout << "Language mode has not been properly marked" << std::endl;
         returnCode = -5;
     }
