@@ -6,6 +6,7 @@
     LangMode
         1 - Original CHIP8 Opcode Programming
         2 - Assembler Mnemonic Language
+        3 - Assembly language based off Cowgod's CHIP-8 technical reference (http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
 */
 
 #include "CChipp8Assembler.h"
@@ -14,10 +15,10 @@
 #include "AssemblyCompiler.h"
 
 int main(int argc, char** argv){
-    std::string fileToAssemble, outputFile;
-    int langMode = 1;
-    int returnCode = 1;
-    bool readyForAssembly = 1;
+    std::string fileToAssemble, outputFile; //the fileToAssemble is input path for the input file and outputFile is the output path for the assembled file
+    int langMode = 1; //langMode 1 = opcode prorgam, 2 = aml, 3 = assembly
+    int returnCode = 1; //return code > 1 means all good, return code < 0 means bad
+    bool readyForAssembly = 1; //as long as the file is ready for assembly and nothing goes wrong this should not change values
 
     //determine the assembler settings based off of the command line args
     for (int i = 1; i < argc; i++) {
@@ -56,18 +57,23 @@ int main(int argc, char** argv){
     //if we have a negative return code then the file is NOT ready for assembly
     if(returnCode < 0) readyForAssembly = 0;
 
-    if (readyForAssembly) { //if all of the required things have been taken care of then we can assemble
-        //now we need to read the byte and add it to our vector 
-        char byte;
-        std::vector<char> ROMBytes;
-        while (file.get(byte)) {
-            if(byte != ' ') //dont add the byte if it is a space or newline
+    //read the file and its bytes then assemble
+    try{
+        if (readyForAssembly) { //if all of the required things have been taken care of then we can assemble
+            //now we need to read the byte and add it to our vector 
+            char byte;
+            std::vector<char> ROMBytes;
+            while (file.get(byte))
                 ROMBytes.push_back(byte); //add the bytes to our vector
-        }
 
-        if(langMode == 1) opcodeAssemble(ROMBytes, outputFile, returnCode); //assemble our program into a compiled binary if it is written in just opcodes
-        else if(langMode == 2) langCompile(ROMBytes, outputFile, returnCode); //assemble our program into the binary if written with mnemonic language
-        else if(langMode == 3) assemblyCompile(ROMBytes, outputFile, returnCode);
+            if(langMode == 1) opcodeAssemble(ROMBytes, outputFile, returnCode); //assemble our program into a compiled binary if it is written in just opcodes
+            else if(langMode == 2) langCompile(ROMBytes, outputFile, returnCode); //assemble our program into the binary if written with mnemonic language
+            else if(langMode == 3) assemblyCompile(ROMBytes, outputFile, returnCode); //assemble our program into the binary if written in assembly
+        }
+    }catch(std::ios_base::failure error){
+        //Error code -6
+        std::cout << "An error has occured with reading the file and its bytes." << std::endl;
+        returnCode = -6;
     }
 
     //if there was an error then let it be known
