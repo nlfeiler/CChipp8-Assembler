@@ -11,6 +11,7 @@
 #include "CChipp8Assembler.h"
 #include "OpcodeAssembler.h"
 #include "LanguageCompiler.h"
+#include "AssemblyCompiler.h"
 
 int main(int argc, char** argv){
     std::string fileToAssemble, outputFile;
@@ -25,7 +26,7 @@ int main(int argc, char** argv){
         if (arg == "-f") fileToAssemble = argv[i+1];
         else if(arg == "-op") langMode = 1; //the file is programmed straight in the opcodes of the chip8
         else if(arg == "-tl") langMode = 2; //the file is programmed in the custom assembler mnemonic code
-        else if(arg == "-asm") langMode = 3;
+        else if(arg == "-asm") langMode = 3; //the file is programmed in assembly
         else if(arg == "-o") outputFile = argv[i+1];
     }
 
@@ -60,12 +61,13 @@ int main(int argc, char** argv){
         char byte;
         std::vector<char> ROMBytes;
         while (file.get(byte)) {
-            if(byte != ' ' && byte != '\n' && byte != '\r') //dont add the byte if it is a space or newline
+            if(byte != ' ') //dont add the byte if it is a space or newline
                 ROMBytes.push_back(byte); //add the bytes to our vector
         }
 
         if(langMode == 1) opcodeAssemble(ROMBytes, outputFile, returnCode); //assemble our program into a compiled binary if it is written in just opcodes
         else if(langMode == 2) langCompile(ROMBytes, outputFile, returnCode); //assemble our program into the binary if written with mnemonic language
+        else if(langMode == 3) assemblyCompile(ROMBytes, outputFile, returnCode);
     }
 
     //if there was an error then let it be known
