@@ -67,7 +67,7 @@ int main(int argc, char** argv){
 
             if(langMode == 1) opcodeAssemble(ROMBytes, outputFile, returnCode); //assemble our program into a compiled binary if it is written in just opcodes
             else if(langMode == 2) langCompile(ROMBytes, outputFile, returnCode); //assemble our program into the binary if written with mnemonic language
-            else if(langMode == 3) assemblyCompile(ROMBytes, outputFile, returnCode); //assemble our program into the binary if written in assembly
+            else if(langMode == 3) assembleAssemblyFile(ROMBytes, outputFile, returnCode); //assemble our program into the binary if written in assembly
         }
     }catch(std::ios_base::failure error){
         //Error code -6
