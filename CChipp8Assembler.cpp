@@ -61,10 +61,9 @@ int main(int argc, char** argv){
     try{
         if (readyForAssembly) { //if all of the required things have been taken care of then we can assemble
             //now we need to read the byte and add it to our vector 
-            char byte;
-            std::vector<char> ROMBytes;
-            while (file.get(byte))
-                ROMBytes.push_back(byte); //add the bytes to our vector
+            char byte; //stores current byte in input
+            std::vector<char> ROMBytes; //this vector stores all the bytes in the input file
+            while (file.get(byte)) ROMBytes.push_back(byte); //add the bytes to our vector
 
             if(langMode == 1) opcodeAssemble(ROMBytes, outputFile, returnCode); //assemble our program into a compiled binary if it is written in just opcodes
             else if(langMode == 2) langCompile(ROMBytes, outputFile, returnCode); //assemble our program into the binary if written with mnemonic language

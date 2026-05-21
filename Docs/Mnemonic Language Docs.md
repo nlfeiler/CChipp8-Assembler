@@ -16,7 +16,7 @@ There are a few more things to keep in mind when writing in the assembler mnemon
 0x200: clearScreen()
 0x202: goto(200)
 ```  
-Another thing to keep in mind when writing in the assembler mnemonic language is that all values should be written in hexadecimal as the assembler cannot determine the difference between decimal numbers and hexadecimal numbers it assumes that all numbers in hexadecimal numbers. One final thing of note for writing in the assembler mnemonic language is that comments are supported and highly encouraged as even though you are writing in a C like syntax you are still limited to the design structure of an assembly program. Comments in the assembler mnemonic language are started and ended with a pound sign (\#). **ALL comments must be closed otherwise the assembler will continue to read the rest of the program as if it was a comment.**  
+Another thing to keep in mind when writing in the assembler mnemonic language is that all values should be written in hexadecimal as the assembler cannot determine the difference between decimal numbers and hexadecimal numbers it assumes that all numbers in hexadecimal numbers. One final thing of note for writing in the assembler mnemonic language is that comments are supported and highly encouraged as even though you are writing in a C like syntax you are still limited to the design structure of an assembly program. Comments in the assembler mnemonic language are started and ended with a pound sign (\#).  
   
 Example programs can be found [here](https://github.com/nlfeiler/CChipp8-Assembler/tree/main/Docs/Example%20Programs/)
 ### Compiling an Assembler Mnemonic Language Program  
