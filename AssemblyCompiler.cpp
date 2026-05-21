@@ -1,5 +1,12 @@
 #include "AssemblyCompiler.h"
 
+//TODO:
+//List of everything to do down here:
+//Add numbering system support to the assembly language (then port that support over to the AML) such as 0x200 0b1011
+//Add the other opcodes and assembly functions to this
+//Refactor some of the code (LOWEST PRIORITY)
+//Add some more error handling 
+
 std::vector<std::string> assemblyFunctions = {"CLS", "JP", "ADD"};
 
 //This function will check to see if a token is a label that has been created and will get its memory location if so, if not it returns zero
@@ -86,7 +93,7 @@ void compile(std::vector<std::string> &tokens, std::vector<int> &opcodes, std::s
             //TODO: make this full assembly opcode work for incrememnting the register by a byte and by a register and incrementing I
             //right now this is just implementing incrementing a register by a byte
             opcode = 0x7000;
-            opcode += (std::stoi(tokens[i+1], nullptr, 16) << 8) + (std::stoi(tokens[i+2], nullptr, 16) << 4); //assemble the opcode and for now just assume everything is hexadecimal
+            opcode += (std::stoi(tokens[i+1], nullptr, 16) << 8) + (std::stoi(tokens[i+2], nullptr, 16) << 4); //assemble the opcode and for now just assume everything is hexadecimal for now
             opcodeAssembled = true;
         }
         else{ //if we cannot recognize the token based off the rules above then we do not have an opcode to push to our list of assembled opcodes 

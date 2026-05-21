@@ -9,6 +9,17 @@
         3 - Assembly language based off Cowgod's CHIP-8 technical reference (http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
 */
 
+//TODO: Todo list below:
+/*
+    Refactor up LanguageCompiler.cpp and OpcodeAssembler.cpp
+    RENAME OpcodeAssembler.cpp (I dont think I actually really need to do this because the file is actually just getting assembler here there is no compiling)
+    Add some more error handling to the main file here
+    Refactor up this main file here as well
+    Maybe make some of the comments a little more explanatory for the person that reads them if they are not a dev
+    TODO: Port over the advancements of the assembly compiler to the AML compiler (HIGH PRIORITY)
+    Comment up the header files and function definitions in source files to make it known what they do
+*/
+
 #include "CChipp8Assembler.h"
 #include "OpcodeAssembler.h"
 #include "LanguageCompiler.h"
