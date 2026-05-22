@@ -1,1 +1,1 @@
-g++ *.cpp -o ./bin/CChipp8Assembler -w
+g++ src/*.cpp -o ./bin/CChipp8Assembler -w
