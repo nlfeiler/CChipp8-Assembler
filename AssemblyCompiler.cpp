@@ -1,4 +1,6 @@
 #include "AssemblyCompiler.h"
+#include "Tokenizer.h"
+#include "Assembler.h"
 
 //TODO:
 //List of everything to do down here:
@@ -8,13 +10,6 @@
 //Add some more error handling 
 
 std::vector<std::string> assemblyFunctions = {"CLS", "JP", "ADD"};
-
-void flushToken(std::vector<std::string> &tokens, std::string &token){
-    if(!token.empty()){//flush char
-        tokens.push_back(token);
-        token = "";
-	}
-}
 
 //This function will check to see if a token is a label that has been created and will get its memory location if so, if not it returns zero
 int ifLabelGetMemoryLocation(std::vector<std::string> &labels, std::vector<int> &labelMemoryLocations, std::string &token){
@@ -26,30 +21,6 @@ int ifLabelGetMemoryLocation(std::vector<std::string> &labels, std::vector<int> 
     }
 
     return 0; //return 0 if there is no label location that has been found
-}
-
-//This function will write all of the opcodes in the opcodes vector to the output file and then set the return code appropriately
-void assemble(std::vector<int> &opcodes, std::string outputFile, int &returnCode){
-    try {
-		std::ofstream fileOutput(outputFile, std::ios::binary);
-		for (int i = 0; i < opcodes.size(); i++) {
-			std::cout << "Opcode: " << std::hex << opcodes[i] << std::endl; //print out each opcode that we are writing
-
-			char highByte = (opcodes[i] >> 8) & 0xFF; //now we need to get the high and low byte of the opcode
-			char lowByte = opcodes[i] & 0xFF; //get the low byte
-
-			fileOutput.write(&highByte, sizeof(highByte)); //write the high byte
-			fileOutput.write(&lowByte, sizeof(lowByte)); //write the low byte
-		}
-	}
-	catch (std::ios_base::failure& e) {//if some error has happened we will tell the user and exit
-		std::cout << "Error assembling file. Please try again.\n" << e.what() << std::endl;
-		returnCode = -4; //we are going to return error code -4 here for this error
-		return;
-	}
-
-	std::cout << "Successfully assembled file" << std::endl;
-	returnCode = 1; //set return code to 1 to signifiy successful output
 }
 
 //This function will take all of the tokens that we have created and then compile them to chip8 opcodes
@@ -113,56 +84,16 @@ void compile(std::vector<std::string> &tokens, std::vector<int> &opcodes, std::s
     }
 }
 
-//This function will take the rom input and then tokenize it into tokens that can easily be dealt with in order to figure out what to do with them
-void tokenize(std::vector<char> &ROMBytes, std::vector<std::string> &tokens, std::string outputFile, int &returnCode){
-    std::string token = ""; //store the current working token
-    bool inComment = 0; //store whether or not we are currently within a comment in our code
-
-    //iterate through all of the bytes of the original file
-    for(int i = 0; i < ROMBytes.size(); i++){
-        if(ROMBytes[i] == ';'){ //if the current char is a semi colon we need to eat it and then indicate we have started a comment
-            inComment = true;
-            continue; //move on to the next byte
-        }
-
-        //if current char is a space then we can flush the current token and eat the space
-        if(ROMBytes[i] == ' '){
-			flushToken(tokens, token);
-			continue; //carry on to next byte in original file
-		}
-
-        //if a new line is presented we also need to eat that line and flush the current token as well as mark we are no longer in a comment
-        if(ROMBytes[i] == '\n' || ROMBytes[i] == '\r' || ROMBytes[i] == '\0'){
-            inComment = false; //no longer in comment if a new line has happened
-            flushToken(tokens, token);
-            continue; //carry on my wayward son
-        }
-
-        //if we are not on a special char and not in a comment then add the current byte to our working token 
-        if((ROMBytes[i] != ':' && ROMBytes[i] != ' ' && ROMBytes[i] != ',' && ROMBytes[i] != '\n') && !inComment)
-            token += ROMBytes[i];
-        else{ //if we are on a special char we need to flush token and then push the special char to the tokens
-            if(token != "")
-                tokens.push_back(token);
-            tokens.push_back(std::string(1, ROMBytes[i]));
-            token = "";
-        }
-    }
-
-    //push our final token after the loop provided that it is not an empty token
-    if(token != "") tokens.push_back(token);
-}
-
 void assembleAssemblyFile(std::vector<char> &ROMBytes, std::string outputFile, int &returnCode){
     std::vector<std::string> tokens; //stores the completed tokens from the tokenization
     std::vector<int> opcodes; //stores the completed opcodes to be assembled
 
-    //first up we need to tokenize the input file
+    //first up we need to tokenize the input file, tokenizer code is located in Tokenizer.cpp
     tokenize(ROMBytes, tokens, outputFile, returnCode);
     if (returnCode < 0) return;
     //next up we need to compile the input tokens into opcodes
     compile(tokens, opcodes, outputFile, returnCode);
     if(returnCode < 0) return;
-    //then we need to assemble the file properly
+    //then we need to assemble the file properly, assembler code is located in Assembler.cpp
     assemble(opcodes, outputFile, returnCode);
 }

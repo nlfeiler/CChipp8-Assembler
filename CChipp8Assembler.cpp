@@ -18,6 +18,7 @@
     Maybe make some of the comments a little more explanatory for the person that reads them if they are not a dev
     TODO: Port over the advancements of the assembly compiler to the AML compiler (HIGH PRIORITY)
     Comment up the header files and function definitions in source files to make it known what they do
+    TODO: Update/Refactor LanguageCompiler.cpp to use the new Tokenizer.cpp and Assembler.cpp file
 */
 
 #include "CChipp8Assembler.h"
