@@ -9,6 +9,13 @@
 
 std::vector<std::string> assemblyFunctions = {"CLS", "JP", "ADD"};
 
+void flushToken(std::vector<std::string> &tokens, std::string &token){
+    if(!token.empty()){//flush char
+        tokens.push_back(token);
+        token = "";
+	}
+}
+
 //This function will check to see if a token is a label that has been created and will get its memory location if so, if not it returns zero
 int ifLabelGetMemoryLocation(std::vector<std::string> &labels, std::vector<int> &labelMemoryLocations, std::string &token){
     auto it = std::find(labels.begin(), labels.end(), token); //get our iterator for our finding in the vector
@@ -106,6 +113,7 @@ void compile(std::vector<std::string> &tokens, std::vector<int> &opcodes, std::s
     }
 }
 
+//This function will take the rom input and then tokenize it into tokens that can easily be dealt with in order to figure out what to do with them
 void tokenize(std::vector<char> &ROMBytes, std::vector<std::string> &tokens, std::string outputFile, int &returnCode){
     std::string token = ""; //store the current working token
     bool inComment = 0; //store whether or not we are currently within a comment in our code
@@ -119,24 +127,15 @@ void tokenize(std::vector<char> &ROMBytes, std::vector<std::string> &tokens, std
 
         //if current char is a space then we can flush the current token and eat the space
         if(ROMBytes[i] == ' '){
-			if(!token.empty()){//flush char
-				tokens.push_back(token);
-				token = "";
-			}
-
+			flushToken(tokens, token);
 			continue; //carry on to next byte in original file
 		}
 
         //if a new line is presented we also need to eat that line and flush the current token as well as mark we are no longer in a comment
         if(ROMBytes[i] == '\n' || ROMBytes[i] == '\r' || ROMBytes[i] == '\0'){
             inComment = false; //no longer in comment if a new line has happened
-
-            if(!token.empty()){ //flush the current token
-                tokens.push_back(token);
-                token = "";
-            }
-
-            continue; //carry on
+            flushToken(tokens, token);
+            continue; //carry on my wayward son
         }
 
         //if we are not on a special char and not in a comment then add the current byte to our working token 
